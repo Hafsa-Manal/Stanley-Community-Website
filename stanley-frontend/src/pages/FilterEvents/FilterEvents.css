@@ -1,0 +1,580 @@
+/* FilterEvents.css — rewritten, cleaned, spacing-fixed */
+
+/* ---------- Base / Page ---------- */
+:root{
+  --card-bg: #ffffff;
+  --page-bg: #7a0d0d;
+  --accent-dark: #8b0000;
+  --accent-deep: #600000;
+  --muted: #555;
+  --text-dark: #2a1010;
+  --card-padding: 22px;
+  --image-width: 260px;
+  --image-height: 180px;
+}
+
+* { box-sizing: border-box; }
+
+.filter-page {
+  background: var(--page-bg);
+  min-height: 100vh;
+  padding: 30px 0 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+  color: #222;
+}
+
+/* Wrapper */
+.find-events-wrapper {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Intro */
+.intro-box {
+  width: 50%;
+  max-width: 600px;
+  background: var(--card-bg);
+  padding: 10px 14px;
+  border-radius: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  color: #31150a;
+  font-style: italic;
+}
+
+/* Filter bar */
+.filter-box-wrapper {
+  background: var(--card-bg);
+  padding: 12px 16px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* small controls */
+.left-controls { flex: 1 1 360px; }
+.search-input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 14px; }
+.filter-controls { display:flex; gap:12px; align-items:center; }
+.filter-controls label { font-size:13px; color: #31150a; font-weight: 600; display:flex; flex-direction:column; gap:6px; }
+.filter-controls select { padding:8px; border-radius:8px; border:1px solid #ccc; }
+
+/* buttons */
+.filter-btn, .clear-btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+.filter-btn { background: var(--accent-dark); color:#fff; }
+.clear-btn  { background: #eee; color: #31150a; }
+
+/* Event list */
+.event-list { display: flex; flex-direction: column; gap: 20px; }
+
+/* ---------- Card (two-column grid) ---------- */
+.event-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: var(--card-padding);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.03);
+  display: grid;
+  grid-template-columns: 1fr var(--image-width);
+  gap: 18px;
+  align-items: start; /* top alignment to avoid accidental vertical growth */
+  position: relative;
+  overflow: visible;
+}
+
+/* If your markup has .event-grid inside the card, let children flow (we control placement here) */
+.event-card .event-grid { display: contents; }
+
+/* Title row: stack title and badge */
+.event-title-row {
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+/* Title */
+.event-title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.05;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+/* Badge */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #fff;
+  display:inline-block;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+.status-upcoming  { background: #1e90ff; }
+.status-ongoing   { background: #28a745; }
+.status-past      { background: #6c757d; }
+.status-cancelled { background: #dc3545; }
+.status-unknown   { background: #444; }
+
+/* Meta: date & location — tight spacing */
+.event-meta, .event-location {
+  grid-column: 1 / 2;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+  margin: 6px 0; /* small gap between lines */
+}
+
+/* CSS icons via pseudo elements (small, subtle) */
+.event-meta::before { content:"📅"; margin-right:6px; opacity:.85; }
+.event-location::before { content:"📍"; margin-right:6px; opacity:.85; }
+
+/* Description: clamped but readable; sits close to meta */
+.event-desc {
+  grid-column: 1 / 2;
+  margin: 8px 0 8px 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Button: sits directly below description with no big gap */
+.event-add-btn {
+  grid-column: 1 / 2;
+  margin: 6px 0 0 0; /* small top gap only */
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent-deep));
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .4px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 5px 18px rgba(163,0,0,0.12);
+  align-self: start;
+}
+
+/* Button "added" state */
+.event-add-btn.added { background: #31150a; box-shadow: none; }
+
+/* Image wrapper: locked into right column, NO spanning */
+.event-image-wrapper,
+.event-card > .event-image-wrapper {
+  grid-column: 2 / 3;      /* strictly right column */
+  grid-row: 1 / 2;         /* top row only — prevents vertical spanning */
+  align-self: start;
+  justify-self: end;
+  width: var(--image-width);
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Image itself: fills wrapper and doesn't push height */
+.event-image,
+.image-placeholder {
+  display: block;
+  width: 100%;
+  height: var(--image-height);
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  transition: transform .35s ease;
+}
+
+/* tiny hover zoom */
+.event-card:hover .event-image { transform: scale(1.02); }
+
+/* Remove any large bottom gap inside card children (defensive) */
+.event-card > * { margin: 0; }
+
+/* Small utilities to avoid rogue spacing from nested tags */
+.event-card .event-meta,
+.event-card .event-location,
+.event-card .event-desc,
+.event-card .event-add-btn,
+.event-card .event-title-row { margin: 6px 0; }
+
+/* No-events style */
+.no-events { padding: 18px; text-align:center; color:#fff; background:var(--accent-dark); border-radius:10px; }
+
+/* ---------- Responsiveness (mobile) ---------- */
+@media (max-width: 780px) {
+  :root { --image-height: 170px; }
+
+  .event-card {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  /* Move image on top on mobile (change order if you prefer below) */
+  .event-image-wrapper {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    order: -1; /* image first on mobile; set to 99 to place last */
+    width: 100%;
+    justify-self: center;
+  }
+
+  .event-image, .image-placeholder { height: var(--image-height); }
+
+  .event-title { font-size: 22px; }
+  .event-desc { -webkit-line-clamp: 4; } /* allow one more line on mobile */
+  .event-add-btn { width: 100%; text-align: center; }
+}
+
+/* ---------- Final defensive override (if legacy !important exists) ----------
+   If you have older conflicting rules that use !important, paste this block at the very end.
+   NOTE: ideally remove old !important rules — keep this only if necessary. */
+:root {}
+
+/* ---------- FINAL MICRO-TWEAK: nudge image right + tighten title→badge→date ---------- */
+/* Paste this at the VERY END of FilterEvents.css so it overrides earlier rules */
+
+.find-events-wrapper .event-card {
+  overflow: visible !important;       /* allow image to visually hug edge */
+  padding: 20px !important;           /* slightly tighter overall */
+  gap: 16px !important;
+  box-sizing: border-box !important;
+}
+
+/* DESKTOP: nudge the right image visually toward the card edge (increase value to push further) */
+@media (min-width: 781px) {
+  .find-events-wrapper .event-card .event-image-wrapper,
+  .find-events-wrapper .event-card > .event-image-wrapper {
+    /* keep grid placement but visually nudge */
+    transform: translateX(18px) !important; /* ↑ increase (e.g. 24px) to push more right */
+    justify-self: end !important;
+    align-self: start !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    /* defend against any accidental spanning */
+    grid-row: 1 / 2 !important;
+  }
+
+  /* Keep image height constrained so it doesn't push card height */
+  .find-events-wrapper .event-card .event-image,
+  .find-events-wrapper .event-card .image-placeholder {
+    height: 180px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Tighten the vertical rhythm between Title -> Badge -> Date */
+.find-events-wrapper .event-card .event-title-row,
+.find-events-wrapper .event-card .event-title-row > * {
+  gap: 4px !important;             /* smaller gap between title and badge */
+  margin-bottom: 4px !important;
+}
+
+/* Make the badge sit closer to the title and date */
+.find-events-wrapper .event-card .status-badge,
+.status-badge {
+  margin: 0 !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  margin-bottom: 2px !important;
+}
+
+/* Remove big block gap before date, make meta lines tight */
+.find-events-wrapper .event-card .event-meta {
+  margin-top: 4px !important;      /* small gap from badge */
+  margin-bottom: 6px !important;   /* small gap before location/description */
+  line-height: 1.25 !important;
+}
+
+/* tighten location spacing too */
+.find-events-wrapper .event-card .event-location {
+  margin-top: 2px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Keep the Add button close to description (no huge bottom gap) */
+.find-events-wrapper .event-card .event-desc {
+  margin: 8px 0 8px 0 !important;
+  line-height: 1.45 !important;
+}
+.find-events-wrapper .event-card .event-add-btn {
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
+}
+
+/* MOBILE: disable the visual nudge and keep stacking tidy */
+@media (max-width: 780px) {
+  .find-events-wrapper .event-card .event-image-wrapper,
+  .find-events-wrapper .event-card > .event-image-wrapper {
+    transform: none !important;
+    order: -1 !important;  /* keep image on top on mobile; change to 2 if you prefer bottom */
+    width: 100% !important;
+    margin-bottom: 12px !important;
+  }
+
+  .find-events-wrapper .event-card { padding: 16px !important; gap: 12px !important; }
+  .find-events-wrapper .event-card .event-image,
+  .find-events-wrapper .event-card .image-placeholder { height: 170px !important; }
+}
+/* ===========================
+   FINAL: FORCE-IMAGE RIGHT + PERFECT SPACING
+   Paste this as the last block in FilterEvents.css (or replace file)
+   =========================== */
+
+/* ---------- Variables ---------- */
+:root{
+  --page-bg: #7a0d0d;
+  --card-bg: #fff;
+  --card-padding-vertical: 22px;
+  --card-padding-horizontal: 24px;
+  --image-w: 260px;
+  --image-h: 180px;
+  --image-gap: 24px; /* space between image and card edge */
+  --text-color: #222;
+  --muted: #555;
+}
+
+/* ---------- Base safety resets ---------- */
+.find-events-wrapper .event-card * {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  margin: 0 !important; /* remove rogue margins that create large gaps */
+  padding: 0 !important;
+}
+
+/* ---------- Card shell: reserve space for absolute image ---------- */
+.find-events-wrapper .event-card {
+  position: relative !important;
+  background: var(--card-bg) !important;
+  border-radius: 14px !important;
+  padding: var(--card-padding-vertical) var(--card-padding-horizontal) !important;
+  padding-right: calc(var(--image-w) + var(--image-gap) + var(--card-padding-horizontal)) !important;
+       /* this reserves space on the right so text never goes under the absolute image */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06) !important;
+  border: 1px solid rgba(0,0,0,0.03) !important;
+  overflow: visible !important;
+  display: block !important; /* keep natural flow for text */
+  line-height: 1.45 !important;
+  color: var(--text-color) !important;
+}
+
+/* ---------- Absolute image pinned top-right (desktop) ---------- */
+@media (min-width: 781px) {
+  .find-events-wrapper .event-card .event-image-wrapper,
+  .find-events-wrapper .event-card > .event-image-wrapper {
+    position: absolute !important;
+    top: var(--card-padding-vertical) !important;
+    right: var(--card-padding-horizontal) !important;
+    width: var(--image-w) !important;
+    height: var(--image-h) !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    pointer-events: none !important; /* image won't capture pointer which helps UX */
+  }
+
+  .find-events-wrapper .event-card .event-image,
+  .find-events-wrapper .event-card .image-placeholder {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    display: block !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.10) !important;
+    transition: transform .25s ease !important;
+  }
+
+  .find-events-wrapper .event-card:hover .event-image {
+    transform: scale(1.02) !important;
+  }
+}
+
+/* ---------- Core text layout + tight vertical rhythm ---------- */
+/* Title row (title + badge): compact, no big gaps */
+.find-events-wrapper .event-card .event-title-row,
+.find-events-wrapper .event-card .event-title-row > * {
+  display: block !important;
+  margin: 0 0 6px 0 !important;
+  padding: 0 !important;
+  line-height: 1.02 !important;
+}
+
+/* Title */
+.find-events-wrapper .event-card .event-title {
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: #31150a !important;
+  margin-bottom: 4px !important;
+}
+
+/* Status badge: pill, sitting right under title (tight) */
+.find-events-wrapper .event-card .status-badge,
+.status-badge {
+  display: inline-block !important;
+  margin: 0 0 6px 0 !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06) !important;
+}
+
+/* Meta (date, location): compact lines, small icon spacing */
+.find-events-wrapper .event-card .event-meta,
+.find-events-wrapper .event-card .event-location {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  color: var(--muted) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  margin: 6px 0 !important; /* small gap between lines */
+}
+
+/* icons */
+.find-events-wrapper .event-card .event-meta::before { content: "📅" !important; margin-right: 6px !important; opacity: .88 !important; }
+.find-events-wrapper .event-card .event-location::before { content: "📍" !important; margin-right: 6px !important; opacity: .88 !important; }
+
+/* Description: close to meta, clamped but readable */
+.find-events-wrapper .event-card .event-desc {
+  margin: 8px 0 6px 0 !important;
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+  color:#31150a !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+  overflow: hidden !important;
+}
+
+/* Button: sits immediately under description, no bottom gap */
+.find-events-wrapper .event-card .event-add-btn {
+  display: inline-block !important;
+  margin: 6px 0 0 0 !important;  /* tiny top gap only */
+  padding: 10px 22px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg,#a30000,#600000) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  box-shadow: 0 6px 18px rgba(163,0,0,0.12) !important;
+  border: none !important;
+  align-self: start !important;
+}
+
+/* Remove extra bottom space by ensuring last child has no extra margin */
+.find-events-wrapper .event-card > :last-child { margin-bottom: 0 !important; }
+
+/* ---------- If markup contains .event-grid children, ensure they don't create gaps ---------- */
+.find-events-wrapper .event-card .event-grid { display: block !important; }
+.find-events-wrapper .event-card .event-grid > * { margin: 0 0 6px 0 !important; }
+
+/* ---------- Mobile: revert absolute image and stack naturally ---------- */
+@media (max-width: 780px) {
+  .find-events-wrapper .event-card {
+    padding: 16px !important;
+    padding-right: 16px !important; /* no reserved right space on mobile */
+  }
+
+  .find-events-wrapper .event-card .event-image-wrapper,
+  .find-events-wrapper .event-card > .event-image-wrapper {
+    position: static !important;
+    width: 100% !important;
+    height: var(--image-h) !important;
+    margin: 0 0 12px 0 !important;
+    order: -1 !important; /* image on top on mobile; change to 2 to put image below text */
+    pointer-events: auto !important;
+  }
+
+  .find-events-wrapper .event-card .event-image,
+  .find-events-wrapper .event-card .image-placeholder {
+    width: 100% !important;
+    height: var(--image-h) !important;
+    object-fit: cover !important;
+  }
+
+  .find-events-wrapper .event-card .event-desc { -webkit-line-clamp: 4 !important; }
+  .find-events-wrapper .event-card .event-title { font-size: 22px !important; }
+  .find-events-wrapper .event-card .event-add-btn { width: 100% !important; text-align: center !important; }
+}
+
+/* ---------- Defensive: if old !important rules remain, last-resort stronger selectors ---------- */
+/* Use only if you continue to see conflicting styles — otherwise safe to keep. */
+.find-events-wrapper .event-card[style] { /* no-op to increase specificity */ }
+
+/* 1️⃣ Move the image slightly LEFT */
+.find-events-wrapper .event-card .event-image-wrapper {
+  transform: translateX(-15px) !important;  /* adjust: -10px, -20px, etc. */
+  justify-self: end !important;
+}
+
+/* 2️⃣ Left-align the description text */
+.find-events-wrapper .event-card .event-desc {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+/* 1️⃣ TITLE + BADGE ON SAME LINE */
+.find-events-wrapper .event-card .event-title-row {
+  display: flex !important;
+  flex-direction: row !important;   /* side-by-side */
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;             /* space between title and badge */
+  margin-bottom: 6px !important;
+}
+
+.find-events-wrapper .event-card .status-badge {
+  margin: 0 !important;
+  padding: 6px 14px !important;
+}
+
+/* 2️⃣ LIMIT DESCRIPTION TO 1–2 VISIBLE LINES */
+.find-events-wrapper .event-card .event-desc {
+  text-align: left !important;
+  margin-left: 0 !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;   /* change to 1 if you want only one line */
+  overflow: hidden !important;
+  line-height: 1.45 !important;
+  max-width: 95% !important;
+}
+
+/* 3️⃣ IMAGE SLIGHTLY LEFT (fine-tune here) */
+.find-events-wrapper .event-card .event-image-wrapper {
+  transform: translateX(-15px) !important; /* adjust -10px / -20px if needed */
+}
+/* Make event title thinner / less bold */
+.find-events-wrapper .event-card .event-title {
+  font-weight: 600 !important;   /* was 800 — change to 500 or 400 if you want even lighter */
+  letter-spacing: 0 !important;  /* removes extra heaviness */
+}

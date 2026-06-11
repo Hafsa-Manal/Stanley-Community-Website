@@ -1,0 +1,223 @@
+/* ============================
+   PAGE BASE
+============================ */
+.page-container {
+  min-height: 10vh;
+  padding-top: 10px;
+  background:#7a0d0d;
+  font-family: Manrope, sans-serif;
+}
+
+/* ============================
+   AUTH WRAPPER
+============================ */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 120px 20px;
+}
+
+.auth-card {
+  width: 640px;
+  max-width: 95%;
+  background: WHITE;
+  border-radius: 12px;
+  padding: 34px 44px;
+  text-align: center;
+}
+
+
+.auth-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #31150a;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #31150a;
+}
+
+.auth-label {
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.auth-input {
+  height: 35px;
+  border: 1px solid  #feffe3;
+  border-radius: 8px;
+  border-color: #31150a;
+  padding: 10px 14px;
+  background-color:  #feffe3;
+}
+
+.auth-btn {
+  margin-top: 10px;
+  height: 48px;
+  background: #31150a;
+  color: white;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+}
+
+.auth-toggle {
+  margin-top: 16px;
+  color: #31150a;
+;
+}
+
+.toggle-link {
+  color: #ce262c;
+  cursor: pointer;
+}
+
+.toggle-link:hover {
+  text-decoration: underline;
+}
+
+/* ============================
+     AUTHENTICATED VIEW
+============================ */
+.your-events-page {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+.logout-btn {
+  background: #eee;
+  border: 1px solid #ccc;
+  color: #7a0d0d;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.events-section {
+  margin-top: 20px;
+}
+
+.events-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0;
+}
+
+.event-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 16px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.event-heading {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #31150a;
+  align-items: center;
+}
+
+.event-date {
+  color: #666;
+  margin-top: 4px;
+}
+
+.event-location {
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.event-description {
+  margin-top: 10px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.event-img {
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* responsive */
+@media (max-width: 760px) {
+  .event-card {
+    grid-template-columns: 1fr;
+  }
+
+  .event-img {
+    height: 220px;
+  }
+}
+/* === RESTORE: Your Events exact layout (paste into YourEvents.css or at end of main CSS) === */
+
+.your-events-page .event-card {
+  position: static !important;        /* undo absolute-positioning anchoring */
+  overflow: visible !important;
+  padding-right: 30px !important;     /* restore original card padding */
+  display: grid !important;
+  grid-template-columns: 1fr 260px !important; /* two-column layout: text / image */
+  gap: 16px !important;
+  align-items: center !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+}
+
+/* ensure left column text keeps normal flow */
+.your-events-page .event-grid,
+.your-events-page .event-content {
+  grid-column: 1 / 2 !important;
+}
+
+/* keep the image in-flow on the right column */
+.your-events-page .event-image-wrapper {
+  position: static !important;
+  width: auto !important;
+  justify-content: center !important;
+  align-items: center !important;
+  right: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+}
+
+/* image sizing for Your Events */
+.your-events-page .event-image,
+.your-events-page .event-img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 260px !important;       /* original width used on Your Events */
+  height: 160px !important;          /* original height */
+  object-fit: cover !important;
+  border-radius: 8px !important;
+}
+
+/* keep text alignment and spacing as before */
+.your-events-page .event-heading,
+.your-events-page .event-date,
+.your-events-page .event-location,
+.your-events-page .event-description {
+  text-align: left !important;
+}
